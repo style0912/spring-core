@@ -1,5 +1,7 @@
 package com.nhnent.benjamin;
 
+import com.nhnent.benjamin.model.Pizza;
+import com.nhnent.benjamin.service.PizzaService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -11,10 +13,14 @@ public class Server {
 
     public static void main(String args[]) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(CONTEXT_PATH);
-        String dbName = context.getBean(String.class);
 
-        System.out.println("DBNAME : " + dbName);
+        PizzaService pizzaService = (PizzaService) context.getBean("pizzaService");
+        Pizza pizza = pizzaService.makePizza();
 
+        System.out.println(pizza.toString() + ", " + pizza.hashCode());
+
+        Pizza pepperoniPizza = context.getBean("pepperoniPizza", Pizza.class);
+        System.out.println(pepperoniPizza.toString() + ", " + pepperoniPizza.hashCode());
         context.close();
     }
 }

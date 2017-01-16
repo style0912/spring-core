@@ -6,4 +6,7 @@
     <bean id="dbms" class="java.lang.String">
         <constructor-arg value="H2"/>
     </bean>
+
+    <bean id="pizzaService" class="com.nhnent.benjamin.service.PizzaService" factory-method="getInstance"/>
+    <bean id="pepperoniPizza" factory-bean="pizzaService" factory-method="makePizza"/>
 </beans>
