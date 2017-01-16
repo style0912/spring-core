@@ -1,11 +1,12 @@
 package com.nhnent.benjamin;
 
+import com.nhnent.benjamin.config.ApplicationContextConfig;
 import com.nhnent.benjamin.dao.MemberDao;
 import com.nhnent.benjamin.vo.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Date;
 
@@ -16,7 +17,7 @@ public class Server {
     private static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
 
     public static void main(String args[]) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationContextConfig.class);
 
         MemberDao memberDao = context.getBean(MemberDao.class);
 
@@ -32,12 +33,13 @@ public class Server {
             try {
                 memberDao.insert(member);
             } catch (Exception e) {
-                LOGGER.error("db error. {}", e);
+                LOGGER.error("{}", e);
             }
 
             System.out.println("dongmyo NOT exists");
         } else {
             System.out.println(member.getName());
         }
+
     }
 }
