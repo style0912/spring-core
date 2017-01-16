@@ -1,13 +1,10 @@
 package com.nhnent.benjamin;
 
-import com.nhnent.benjamin.config.ApplicationContextConfig;
-import com.nhnent.benjamin.dao.MemberDao;
-import com.nhnent.benjamin.vo.Member;
+import com.nhnent.benjamin.model.Pizza;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.Date;
+import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.context.support.StaticApplicationContext;
 
 /**
  * Created by benjamin on 2017. 1. 15..
@@ -16,31 +13,10 @@ public class Server {
     private static final Logger LOGGER = LoggerFactory.getLogger(Server.class);
 
     public static void main(String args[]) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationContextConfig.class);
+        StaticApplicationContext context = new StaticApplicationContext();
+        context.registerBeanDefinition("pizzaBean", new RootBeanDefinition(Pizza.class));
 
-        MemberDao memberDao = context.getBean(MemberDao.class);
-
-        Member member = memberDao.exist("dongmyo@nhnent.com", "12345");
-        if (member == null) {
-            member = new Member();
-            member.setEmail("dongmyo@nhnent.com");
-            member.setPassword("12345");
-            member.setName("dongmyo");
-            member.setCreatedDate(new Date());
-            member.setModifiedDate(new Date());
-
-            try {
-                memberDao.insert(member);
-            } catch (Exception e) {
-                LOGGER.error("{}", e);
-            }
-
-            System.out.println("dongmyo NOT exists");
-        } else {
-            System.out.println(member.getName());
-        }
-
-        context.close();
-
+        Pizza pizzaBean = (Pizza) context.getBean("pizzaBean");
+        System.out.println(pizzaBean.toString());
     }
 }
