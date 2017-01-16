@@ -19,7 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ComponentScan(basePackages = "com.nhnent.benjamin")
+@ComponentScan(basePackages = {
+        "com.nhnent.benjamin.dao",
+        "com.nhnent.benjamin.service.kor"
+})
 public class ApplicationContextConfig {
     private static final Map<String, String> JDBC_PROPERTY_LOCATION_MAP = new HashMap<>();
 
